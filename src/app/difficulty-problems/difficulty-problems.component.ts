@@ -30,7 +30,7 @@ type ProblemsResponse={
   styleUrls: ['./difficulty-problems.component.css']
 })
 export class DifficultyProblemsComponent implements OnInit {
-  difficulty:string | null="";
+  difficulty:string="";
   isInValidDifficulty:boolean=false;
   
   API_PATH: string = environment.API_PATH;
@@ -52,7 +52,7 @@ export class DifficultyProblemsComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.route.snapshot.paramMap.get('difficulty')) {
-      this.difficulty = this.route.snapshot.paramMap.get('difficulty');
+      this.difficulty = String(this.route.snapshot.paramMap.get('difficulty'));
     } else {
       this.isInValidDifficulty = true;
       this.router.navigate(['/problems']);

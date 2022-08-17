@@ -1,15 +1,21 @@
 <app-navbar></app-navbar>
-<div *ngIf="isFetchingProblems">
-    Fetching Problems ...
-</div>
+<ng-container *ngIf="isFetchingProblems ; else errorMessage">
+    <!-- Fetching Problems ... -->
+    <app-loading
+        [text]="'getting problems ... '"
+    >
 
-<div *ngIf="isErrorFetchingProblems">
-    Could not fetch problems , please try again ...
-</div>
+    </app-loading>
+</ng-container>
 
-<div>
+<ng-template #errorMessage>
+    <ng-container *ngIf="isErrorFetchingProblems ; else problemListDetails">
+        Could not fetch problems , please try again ...
+    </ng-container>
+</ng-template>
+<ng-template #problemListDetails>
     <app-problem-list [problemList]="problemList">
 
     </app-problem-list>
-</div>
+</ng-template>
 <router-outlet></router-outlet>

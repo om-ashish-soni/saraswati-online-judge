@@ -6,7 +6,12 @@
 
 <ng-template #loadingProfile>
     <ng-container *ngIf="isFetchingProfile ; else profileDetails" >
-        Fetching profile details ... 
+        <!-- Fetching profile details ...  -->
+        <app-loading
+            [text]="'fetching profile ... '"
+        >
+
+        </app-loading>
     </ng-container>
 </ng-template>
 <ng-template #profileDetails>

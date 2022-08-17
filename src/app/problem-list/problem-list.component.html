@@ -1,14 +1,11 @@
 <!-- <p>problem-list works!</p> -->
 <table class="problem-list">
-    <tr colspan="2" class="head-row">
+    <!-- <tr colspan="2" class="head-row">
         <td>
             <label>Difficulty</label>
             &nbsp; : &nbsp;
-            <select>
-                <option>all</option>
-                <option>easy</option>
-                <option>medium</option>
-                <option>hard</option>
+            <select [(ngModel)]="difficulty" (change)="changeDifficulty(difficulty)">
+                <option *ngFor="let cdifficulty of difficulties" [ngValue]="cdifficulty">{{cdifficulty}}</option>
             </select>
         </td>
         <td>
@@ -19,7 +16,7 @@
                 
             </select>
         </td>
-    </tr>
+    </tr> -->
     <tr class="head-row">
         <td>Problem</td>
         <td>Solution</td>

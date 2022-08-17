@@ -26,6 +26,7 @@ import { TagProblemsComponent } from './tag-problems/tag-problems.component';
 import { ProblemListComponent } from './problem-list/problem-list.component';
 import { DifficultyProblemsComponent } from './difficulty-problems/difficulty-problems.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LoadingComponent } from './loading/loading.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +44,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SetProblemComponent,
     TagProblemsComponent,
     ProblemListComponent,
-    DifficultyProblemsComponent
+    DifficultyProblemsComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

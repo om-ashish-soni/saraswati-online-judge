@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment.prod';
 type Problem = {
   problemcode: string,
@@ -24,9 +25,20 @@ type Problem = {
 export class ProblemListComponent implements OnInit {
 
   @Input() problemList:Problem[]=[];
-
+  @Input() difficulty:string='all';
   
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient,private router:Router) { }
+
+  difficulties:string[]=['all','easy','medium','hard'];
+  
+  tag:string='all';
+  changeDifficulty(newDifficulty:string):void{
+    if(newDifficulty=='all'){
+      this.router.navigate(['/problems']);
+    }else{
+      this.router.navigate([`/problems/difficulty/${newDifficulty}`]);
+    }
+  }
 
   ngOnInit(): void {
     
