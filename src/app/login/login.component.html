@@ -1,0 +1,13 @@
+<!-- <p>login works!</p> -->
+
+<div>
+    <p *ngIf="isInvalidCred">
+        Please enter valid credentials
+    </p>
+    <form #f="ngForm" (ngSubmit)="onLogin(f)" novalidate>
+        <label>username : </label><input type="text" name="username" ngModel required/><br/>
+        <label>password : </label><input type="password" name="password" ngModel required/><br/>
+        <button >login</button>
+    </form>
+    <a routerLink="/auth/signin">signin</a>
+</div>

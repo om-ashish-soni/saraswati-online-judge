@@ -1,0 +1,15 @@
+<app-navbar></app-navbar>
+<div *ngIf="isFetchingProblems">
+    Fetching Problems ...
+</div>
+
+<div *ngIf="isErrorFetchingProblems">
+    Could not fetch problems , please try again ...
+</div>
+
+<div>
+    <app-problem-list [problemList]="problemList">
+
+    </app-problem-list>
+</div>
+<router-outlet></router-outlet>

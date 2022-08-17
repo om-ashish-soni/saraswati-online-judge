@@ -1,0 +1,45 @@
+
+<app-navbar></app-navbar>
+<ng-container *ngIf="isInValidProfile ; else loadingProfile">
+    Please provide valid username ...
+</ng-container>
+
+<ng-template #loadingProfile>
+    <ng-container *ngIf="isFetchingProfile ; else profileDetails" >
+        Fetching profile details ... 
+    </ng-container>
+</ng-template>
+<ng-template #profileDetails>
+    <table>
+        <tr>
+            <td>username : </td>
+            <td>{{profile.username}}</td>
+        </tr>
+        <tr>
+            <td>fullname : </td>
+            <td>{{profile.fullname}}</td>
+        </tr>
+        <tr>
+            <td>country : </td>
+            <td>{{profile.country}}</td>
+        </tr>
+        <tr>
+            <td>state : </td>
+            <td>{{profile.state}}</td>
+        </tr>
+        <tr>
+            <td>city : </td>
+            <td>{{profile.city}}</td>
+        </tr>
+        <tr>
+            <td>profession : </td>
+            <td>{{profile.profession}}</td>
+        </tr>
+        <tr>
+            <td>institute : </td>
+            <td>{{profile.institute}}</td>
+        </tr>
+
+    </table>
+</ng-template>
+<router-outlet></router-outlet>

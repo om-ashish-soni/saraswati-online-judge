@@ -1,0 +1,103 @@
+<app-navbar></app-navbar>
+<div>
+    <p *ngIf="isInvalidProblemCode">
+        this problem code is already taken please enter some unique problem.
+    </p>
+    <p *ngIf="isInValidForm">
+        {{msg}}
+    </p>
+    <form #f="ngForm" (ngSubmit)="onSubmitProblem(f)">
+        <label>problemcode : </label>
+        <br />
+
+        <textarea class='form-control' type="text" name="problemcode" ngModel required>
+            </textarea>
+        <br />
+
+        <label>description : </label>
+        <br />
+
+        <textarea class='form-control' type="password" name="description" ngModel required>
+            </textarea>
+        <br />
+
+        <label>constraint : </label>
+        <br />
+
+        <textarea class='form-control' type="text" name="constraints" ngModel required>
+            </textarea>
+        <br />
+
+        <label>input : </label>
+        <br />
+
+        <textarea class='form-control' type="text" name="input" ngModel required>
+            </textarea>
+        <br />
+
+        <label>output : </label>
+        <br />
+
+        <textarea class='form-control' type="text" name="output" ngModel required>
+            </textarea>
+        <br />
+
+        <label>sample input : </label>
+        <br />
+
+        <textarea class='form-control' type="text" name="sampleinput" ngModel required>
+            </textarea>
+        <br />
+
+        <label>sample output : </label>
+        <br />
+
+        <textarea class='form-control' type="text" name="sampleoutput" ngModel required>
+            </textarea>
+        <br />
+
+        <label>difficulty : </label>
+        <br />
+
+        <select [(ngModel)]="difficulty" name="difficulty" required>
+            <option [ngValue]="'easy'">easy</option>
+            <option [ngValue]="'medium'">medium</option>
+            <option [ngValue]="'hard'">hard</option>
+        </select>
+        <br />
+
+        <label>time limit (in seconds) : </label>
+        <br />
+
+        <input type="text" name="timelimit" ngModel required />
+        <br />
+
+        <label>memory limit (in MB) : </label>
+        <br />
+
+        <input type="text" name="memorylimit" ngModel required />
+        <br />
+
+        <label>problem setter : </label>
+        <br />
+
+        <input type="text" name="setter" ngModel required />
+        <br />
+
+        <label>problem tester : </label>
+        <br />
+        <input type="text" name="tester" ngModel required />
+        <br />
+        
+        <label>tags (give comma seperated tags , as per available tags): </label>
+        <br />
+        <input type="text" name="tags" ngModel required />
+        <br />
+
+        <button>Submit</button>
+    </form>
+    <p>available tags : </p>
+    <div >
+        <span *ngFor="let ctag of problemtags">{{ctag}} , </span>
+    </div>
+</div>

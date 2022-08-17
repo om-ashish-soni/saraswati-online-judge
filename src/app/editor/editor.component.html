@@ -1,0 +1,50 @@
+<!-- <p>editor works!</p> -->
+<navbar>
+    <select [(ngModel)]="lang" (change)="changeLang(lang)">
+        <option *ngFor="let clang of langs" [ngValue]="clang">{{clang}}</option>
+    </select>
+    <select [(ngModel)]="theme" (change)="changeTheme(theme)">
+        <option *ngFor="let ctheme of themes" [ngValue]="ctheme">{{ctheme}}</option>
+    </select>
+    <button #runTrigger (click)="runCode()">run</button>
+    <button 
+        *ngIf="isProblem"
+        #submitTrigger 
+        (click)="submitCode()"
+    >
+        submit
+    </button>
+    <button *ngIf="isRan" disabled>
+        execution time : {{executionTime.toFixed(2)}} ms
+    </button>
+    <span *ngIf="isProblem && !isSubmitting && isSubmitted">
+        <h3>{{status}}</h3>
+    </span>
+</navbar>
+<div 
+    class="app-ace-editor" 
+    #editor 
+    style="width:500px;height:250px"
+    (keydown.control.enter)="runCode()"
+    (keydown.control.shift.enter)="isProblem?submitCode():runCode()"
+>
+</div>
+<div *ngIf="isRunning">
+    Running your code ...
+</div>
+<div *ngIf="isSubmitting">
+    Judging your code ...
+</div>
+<div>
+    <label>input : </label><br />
+    <textarea [ngModel]="inp" (ngModelChange)="setInput($event)">
+    </textarea>
+</div>
+<div>
+    <label>output : </label><br />
+    <textarea [ngModel]="op" #outputBox>
+    </textarea>
+</div>
+<div *ngIf="isProblem && !isSubmitting && isSubmitted">
+    <h3>{{status}}</h3>
+</div>

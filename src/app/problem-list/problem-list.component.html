@@ -1,0 +1,15 @@
+<!-- <p>problem-list works!</p> -->
+<table>
+    <tr>
+        <th>problem</th>
+        <th>solution</th>
+        <th>difficulty</th>
+        <th>frequency</th>
+    </tr>
+    <tr *ngFor="let cproblem of problemList" [ngValue]="cproblem">
+        <a routerLink="/problem/{{cproblem.problemcode}}">{{cproblem.problemcode.split('_').join(' ')}}</a>
+        <td>?</td>
+        <td>{{cproblem.difficulty}}</td>
+        <td>?</td>
+    </tr>
+</table>
