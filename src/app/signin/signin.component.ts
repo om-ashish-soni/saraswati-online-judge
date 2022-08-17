@@ -6,7 +6,8 @@ import { environment } from 'src/environments/environment.prod';
 import { Router } from '@angular/router';
 type SigninResponse = {
   accepted: string,
-  userdirpath: string
+  userdirpath: string,
+  ACCESS_TOKEN:string
 }
 @Component({
   selector: 'app-signin',
@@ -20,28 +21,46 @@ export class SigninComponent implements OnInit {
   headers = { "Content-Type": "application/json" }
   body = {}
   isInvalidCred = false;
-
+  errorMessage:string='';
   constructor(private http: HttpClient, private router: Router,private cookieService:CookieService) { }
 
   ngOnInit(): void {
+    this.cookieService.delete('username');
+    this.cookieService.delete('password');
+    this.cookieService.delete('ACCESS_TOKEN');
+    this.cookieService.delete('lang');
+    this.cookieService.delete('theme');
   }
 
   onSignin(f: NgForm) {
-    let { username, password, fullname, country, state, city, profession, institute }: { username: string, password: string , fullname:string, country:string, state:string, city:string, profession:string, institute:string} = f.value;
-    this.body = f.value;
-    this.http.post<SigninResponse>(this.url, this.body, { 'headers': this.headers }).subscribe((response) => {
-      let status: string = response.accepted;
-      let userdirpath: string = response.userdirpath;
-      if (status == 'yes') {
-        this.isInvalidCred = false;
-        this.cookieService.set('username',username);
-        this.cookieService.set('password',password);
-        this.router.navigate(['home'])
-      } else {
-        this.isInvalidCred = true;
-        // alert('please enter valid data')
-      }
-    })
+    if(f.valid){
+      let { username, password, fullname, country, state, city, profession, institute }: { username: string, password: string , fullname:string, country:string, state:string, city:string, profession:string, institute:string} = f.value;
+      this.body = f.value;
+      this.http.post<SigninResponse>(this.url, this.body, { 'headers': this.headers }).subscribe((response) => {
+        let status: string = response.accepted;
+        let userdirpath: string = response.userdirpath;
+        if (status == 'yes') {
+          this.isInvalidCred = false;
+          this.cookieService.set('username',username,10,undefined,undefined,true,'Strict');
+          this.cookieService.set('password',password,10,undefined,undefined,true,'Strict');
+          const ACCESS_TOKEN=response.ACCESS_TOKEN;
+          // console.log('ACCESS_TOKEN',ACCESS_TOKEN)
+          this.cookieService.set('ACCESS_TOKEN',ACCESS_TOKEN,10,undefined,undefined,true,'Strict');
+          this.router.navigate(['home'])
+        } else {
+          this.isInvalidCred = true;
+          console.log('response',response)
+        }
+      },(error)=>{
+        this.isInvalidCred=true;
+        console.log("could not authenticate , try again")
+        console.log("error.msg: ",error.error.msg)
+        this.errorMessage=error.error.msg;
+      })
+    }else{
+      this.isInvalidCred=true;
+      this.errorMessage="Please fill all fields properly";
+    }
   }
 
 }

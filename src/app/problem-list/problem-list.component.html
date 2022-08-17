@@ -10,6 +10,7 @@
         <a routerLink="/problem/{{cproblem.problemcode}}">{{cproblem.problemcode.split('_').join(' ')}}</a>
         <td>-</td>
         <td>{{cproblem.difficulty}}</td>
-        <td>{{(cproblem.correctSubmissions/cproblem.totalSubmissions).toFixed(2)}} % </td>
+        <!-- {{cproblem.correctSubmissions}} {{cproblem.totalSubmissions}} -->
+        <td>{{((cproblem.correctSubmissions*100.00)/(cproblem.totalSubmissions?cproblem.totalSubmissions:1.00)).toFixed(2)}} % </td>
     </tr>
 </table>

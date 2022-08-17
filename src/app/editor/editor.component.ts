@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import * as ace from "ace-builds";
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/environments/environment.prod';
@@ -22,14 +23,16 @@ type RunCodeRequest={
   username:string,
   inp:string,
   lang:string,
-  code:string
+  code:string,
+  ACCESS_TOKEN:string
 }
 type SubmitCodeRequest={
   problemcode:string,
   username:string,
   inp:string,
   lang:string,
-  code:string
+  code:string,
+  ACCESS_TOKEN:string
 }
 type RunCodeResponse={
   result:{
@@ -68,6 +71,7 @@ export class EditorComponent implements AfterViewInit {
   submiturl: string = `${this.API_PATH}/submit/judge`;
   headers = { "Content-Type": "application/json" }
 
+  ACCESS_TOKEN:string='';
   isSubmitting:boolean=false;
   isSubmitted:boolean=false;
   isRunning:boolean=false;
@@ -87,8 +91,13 @@ export class EditorComponent implements AfterViewInit {
     "monokai",
     "textmate"
   ]
-  constructor(private http : HttpClient,private cookieService: CookieService) {
-    
+  constructor(private router:Router,private http : HttpClient,private cookieService: CookieService) {
+    if(this.cookieService.get('username') && this.cookieService.get('ACCESS_TOKEN')){
+      this.username = this.cookieService.get('username')?this.cookieService.get('username'):'';
+      this.ACCESS_TOKEN = this.cookieService.get('ACCESS_TOKEN')?this.cookieService.get('ACCESS_TOKEN'):'';
+    }else{
+      this.router.navigate(['/auth/login']);
+    }
   }
   getUserName():string{
     return this.cookieService.get('username');
@@ -124,7 +133,8 @@ export class EditorComponent implements AfterViewInit {
       username:this.getUserName(),
       lang:this.lang,
       inp:this.inp,
-      code:this.getCode()
+      code:this.getCode(),
+      ACCESS_TOKEN:this.ACCESS_TOKEN
     }
     this.http.post<RunCodeResponse>(this.runurl,runRequestBody,{'headers':this.headers}).subscribe((response:RunCodeResponse)=>{
       if(response.result.error) this.op=response.result.error;
@@ -134,6 +144,9 @@ export class EditorComponent implements AfterViewInit {
       }
       this.isRunning=false;
       this.isRan=true;
+    },(error)=>{
+      console.log("could not authenticate user",error)
+      this.router.navigate(['/auth/login'])
     })
   }
   submitCode(): void {
@@ -147,7 +160,8 @@ export class EditorComponent implements AfterViewInit {
       username:this.getUserName(),
       lang:this.lang,
       inp:'',
-      code:this.getCode()
+      code:this.getCode(),
+      ACCESS_TOKEN:this.ACCESS_TOKEN
     }
     this.http.post<SubmitCodeResponse>(this.submiturl,submitRequestBody,{'headers':this.headers}).subscribe((response:SubmitCodeResponse)=>{
       if(response.result.error) this.op=response.result.error;
@@ -161,6 +175,9 @@ export class EditorComponent implements AfterViewInit {
       if(response.problem && this.setProblem){
         this.setProblem(problem)
       }
+    },(error)=>{
+      console.log("could not authenticate user : ",error);
+      this.router.navigate(['/auth/login']);
     })
   }
   

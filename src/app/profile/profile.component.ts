@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/environments/environment.prod';
 import { NavbarComponent } from '../navbar/navbar.component';
@@ -45,7 +45,7 @@ export class ProfileComponent implements OnInit {
     profession: '',
     institute: ''
   }
-  constructor(private route: ActivatedRoute, private http: HttpClient, private cookieService: CookieService) {
+  constructor(private route: ActivatedRoute,private router:Router, private http: HttpClient, private cookieService: CookieService) {
 
   }
 
@@ -81,8 +81,8 @@ export class ProfileComponent implements OnInit {
       }
       this.isFetchingProfile = false;
     }, (error) => {
-      this.isInValidProfile = true;
-      this.isFetchingProfile = false; 
+      console.log("auth expired")
+      this.router.navigate(['/auth/login']);
     })
 
   }

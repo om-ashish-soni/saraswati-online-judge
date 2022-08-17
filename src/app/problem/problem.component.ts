@@ -1,7 +1,7 @@
 import { EditorComponent } from './../editor/editor.component';
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment.prod';
 type Problem = {
   problemcode: string,
@@ -96,7 +96,7 @@ export class ProblemComponent implements OnInit, AfterViewInit {
     tags: []
   };
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) { }
+  constructor(private route: ActivatedRoute,private router:Router,private http: HttpClient) { }
 
   setProblem(newProblem:Problem){
     console.log("in setProblem")
@@ -144,8 +144,8 @@ export class ProblemComponent implements OnInit, AfterViewInit {
       }
       this.isFetchingProblem = false;
     },(error)=>{
-      this.isInValidProblemCode = true;
-      this.isFetchingProblem = false;
+      console.log("auth expired");
+      this.router.navigate(['/auth/login']);
     })
 
 

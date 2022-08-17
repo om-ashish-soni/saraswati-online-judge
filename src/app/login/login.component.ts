@@ -6,7 +6,8 @@ import {Router} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
 type LoginResponse={
   accepted:string,
-  userdirpath:string
+  userdirpath:string,
+  ACCESS_TOKEN:string
 }
 
 @Component({
@@ -23,11 +24,17 @@ export class LoginComponent implements OnInit {
   body={}
 
   isInvalidCred=false;
+  errorMessage:string="";
   constructor(private http : HttpClient,private router:Router,private cookieService : CookieService) {
 
   }
 
   ngOnInit(): void {
+    this.cookieService.delete('username');
+    this.cookieService.delete('password');
+    this.cookieService.delete('ACCESS_TOKEN');
+    this.cookieService.delete('lang');
+    this.cookieService.delete('theme');
   }
 
   onLogin(f: NgForm) {
@@ -38,13 +45,22 @@ export class LoginComponent implements OnInit {
       let userdirpath:string=response.userdirpath;
       if(status=='yes'){
         this.isInvalidCred=false;
-        this.cookieService.set('username',username);
-        this.cookieService.set('password',password);
+        this.cookieService.set('username',username,10,undefined,undefined,true,'Strict');
+        this.cookieService.set('password',password,10,undefined,undefined,true,'Strict');
+        const ACCESS_TOKEN=response.ACCESS_TOKEN;
+        // console.log("ACCESS_TOKEN",ACCESS_TOKEN);
+        this.cookieService.set('ACCESS_TOKEN',ACCESS_TOKEN,10,undefined,undefined,true,'Strict');
         this.router.navigate(['home'])
       }else{
         this.isInvalidCred=true;
-        alert('please enter valid data')
+        // alert('please enter valid data')
       }
+    },(error)=>{
+      this.isInvalidCred=true;
+      console.log("could not authenticate , try again");
+      console.log("could not authenticate , try again")
+      console.log("error.msg: ",error.error.msg)
+      this.errorMessage=error.error.msg;
     })
   }
 }

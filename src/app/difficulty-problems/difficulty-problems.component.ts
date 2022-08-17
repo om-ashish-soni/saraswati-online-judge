@@ -44,7 +44,7 @@ export class DifficultyProblemsComponent implements OnInit {
   constructor(private route:ActivatedRoute,private router:Router,private http:HttpClient) { }
   
   refineList():void{
-    this.problemList.filter((problem:Problem)=>{
+    this.problemList=this.problemList.filter((problem:Problem)=>{
       return problem.difficulty == this.difficulty;
     });
 

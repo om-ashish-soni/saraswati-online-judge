@@ -45,8 +45,8 @@ export class TagProblemsComponent implements OnInit {
   constructor(private route:ActivatedRoute,private router:Router,private http:HttpClient) { }
   
   refineList():void{
-    this.problemList.filter((problem:Problem)=>{
-      console.log("problem tags : ",problem.tags)
+    this.problemList=this.problemList.filter((problem:Problem)=>{
+      // console.log("problem tags : ",this.tag,problem.tags.indexOf(this.tag?this.tag:''))
       return problem.tags.indexOf(this.tag?this.tag:'') !== -1;
     })
   }

@@ -1,9 +1,11 @@
 <!-- <p>Signin works!</p> -->
 
 <div>
-    <p *ngIf="isInvalidCred">
-        Please enter valid credentials
-    </p>
+
+    <div *ngIf="isInvalidCred">
+        <p>{{errorMessage}}</p>
+        <p>Please enter valid credentials</p>
+    </div>
     <form #f="ngForm" (ngSubmit)="onSignin(f)" novalidate>
         <label>username : </label><input type="text" name="username" ngModel required/><br/>
         <label>password : </label><input type="password" name="password" ngModel required/><br/>
