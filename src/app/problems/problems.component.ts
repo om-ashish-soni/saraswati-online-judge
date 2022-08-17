@@ -2,13 +2,20 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { NavbarComponent } from '../navbar/navbar.component';
-type Problem={
-  problemcode:string,
-  description:string,
-  constraints:string,
-  sampleinput:string,
-  sampleoutput:string,
-  difficulty:string
+type Problem = {
+  problemcode: string,
+  description: string,
+  constraints: string,
+  sampleinput: string,
+  sampleoutput: string,
+  difficulty: string,
+  timelimit: number,
+  memorylimit: number,
+  setter: string,
+  tester: string,
+  correctSubmissions: number,
+  totalSubmissions: number,
+  tags: string[]
 }
 type GetProblemsRequest={
   problemCriteria:Object

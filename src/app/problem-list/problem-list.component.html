@@ -4,12 +4,12 @@
         <th>problem</th>
         <th>solution</th>
         <th>difficulty</th>
-        <th>frequency</th>
+        <th>success-ratio</th>
     </tr>
     <tr *ngFor="let cproblem of problemList" [ngValue]="cproblem">
         <a routerLink="/problem/{{cproblem.problemcode}}">{{cproblem.problemcode.split('_').join(' ')}}</a>
-        <td>?</td>
+        <td>-</td>
         <td>{{cproblem.difficulty}}</td>
-        <td>?</td>
+        <td>{{(cproblem.correctSubmissions/cproblem.totalSubmissions).toFixed(2)}} % </td>
     </tr>
 </table>
