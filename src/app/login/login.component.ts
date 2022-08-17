@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 import {Router} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
 type LoginResponse={

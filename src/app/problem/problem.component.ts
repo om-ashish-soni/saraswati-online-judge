@@ -2,7 +2,7 @@ import { EditorComponent } from './../editor/editor.component';
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 type Problem = {
   problemcode: string,
   description: string,

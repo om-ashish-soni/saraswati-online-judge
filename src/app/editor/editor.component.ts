@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
 import * as ace from "ace-builds";
 import { CookieService } from 'ngx-cookie-service';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 type Problem = {
   problemcode: string,
   description: string,
