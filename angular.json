@@ -108,5 +108,9 @@
       }
     }
   },
-  "defaultProject": "frontend"
+  "defaultProject": "frontend",
+  "scripts":[
+    "node_modules/ace-builds/src-noconflict/ace.js",
+    "node_modules/ace-builds/src-noconflict/ext-language_tools.js"
+  ]
 }

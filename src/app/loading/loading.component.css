@@ -1,7 +1,8 @@
 .loading-wrapper {
-    width: 90%;
-    height: 90%;
+    width: 80%;
+    height: 80%;
     align-items: center;
+    margin:5%;
 }
 
 .loading-logo {

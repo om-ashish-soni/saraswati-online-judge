@@ -42,6 +42,14 @@ export const environment = {
     '2-sat',
     'chinese-remainder-theorem',
     'schedules'
+  ],
+  fontsizes:[
+    '14px',
+    '16px',
+    '18px',
+    '20px',
+    '22px',
+    '24px'
   ]
 };
 

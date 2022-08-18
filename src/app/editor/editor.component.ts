@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import * as ace from "ace-builds";
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/environments/environment.prod';
+// import "../../../node_modules/ace-builds/src-min";
 type Problem = {
   problemcode: string,
   description: string,
@@ -19,36 +20,36 @@ type Problem = {
   totalSubmissions: number,
   tags: string[]
 }
-type RunCodeRequest={
-  username:string,
-  inp:string,
-  lang:string,
-  code:string,
-  ACCESS_TOKEN:string
+type RunCodeRequest = {
+  username: string,
+  inp: string,
+  lang: string,
+  code: string,
+  ACCESS_TOKEN: string
 }
-type SubmitCodeRequest={
-  problemcode:string,
-  username:string,
-  inp:string,
-  lang:string,
-  code:string,
-  ACCESS_TOKEN:string
+type SubmitCodeRequest = {
+  problemcode: string,
+  username: string,
+  inp: string,
+  lang: string,
+  code: string,
+  ACCESS_TOKEN: string
 }
-type RunCodeResponse={
-  result:{
-    output:string,
-    error:string,
-    executionTime:number
+type RunCodeResponse = {
+  result: {
+    output: string,
+    error: string,
+    executionTime: number
   }
 }
-type SubmitCodeResponse={
-  result:{
-    status:string,
+type SubmitCodeResponse = {
+  result: {
+    status: string,
     output: string,
     error: string,
     executionTime: number
   },
-  problem:Problem
+  problem: Problem
 }
 @Component({
   selector: 'app-editor',
@@ -57,32 +58,35 @@ type SubmitCodeResponse={
 })
 export class EditorComponent implements AfterViewInit {
 
-  @Input() isProblem:boolean=false;
-  @Input() problemcode:string='';
-  @Input() sampleinput:string='';
-  @Input() setProblem:any=null;
-  status:string='';
+  @Input() isProblem: boolean = false;
+  @Input() problemcode: string = '';
+  @Input() sampleinput: string = '';
+  @Input() setProblem: any = null;
+  status: string = '';
 
   @ViewChild("editor") private editor!: ElementRef<HTMLElement>;
-  @ViewChild("inputBox") private inputBox!:ElementRef<HTMLTextAreaElement>;
+  @ViewChild("inputBox") private inputBox!: ElementRef<HTMLTextAreaElement>;
+  @ViewChild("outputBox") private outputBox!: ElementRef<HTMLTextAreaElement>;
 
   API_PATH: string = environment.API_PATH;
   runurl: string = `${this.API_PATH}/executor/run`;
   submiturl: string = `${this.API_PATH}/submit/judge`;
   headers = { "Content-Type": "application/json" }
 
-  ACCESS_TOKEN:string='';
-  isSubmitting:boolean=false;
-  isSubmitted:boolean=false;
-  isRunning:boolean=false;
-  isRan:boolean=false;
-  username:string='';
+  fontsizes: string[] = environment.fontsizes;
+  fontsize: string = '20px';
+  ACCESS_TOKEN: string = '';
+  isSubmitting: boolean = false;
+  isSubmitted: boolean = false;
+  isRunning: boolean = false;
+  isRan: boolean = false;
+  username: string = '';
   lang: string = 'python';
   code: string = '';
   theme: string = 'monokai';
   inp: string = '';
   op: string = '';
-  executionTime:number=0;
+  executionTime: number = 0;
   langs: string[] = [
     "python",
     "javascript"
@@ -91,19 +95,27 @@ export class EditorComponent implements AfterViewInit {
     "monokai",
     "textmate"
   ]
-  constructor(private router:Router,private http : HttpClient,private cookieService: CookieService) {
-    if(this.cookieService.get('username') && this.cookieService.get('ACCESS_TOKEN')){
-      this.username = this.cookieService.get('username')?this.cookieService.get('username'):'';
-      this.ACCESS_TOKEN = this.cookieService.get('ACCESS_TOKEN')?this.cookieService.get('ACCESS_TOKEN'):'';
-    }else{
+  constructor(private router: Router, private http: HttpClient, private cookieService: CookieService) {
+    if (this.cookieService.get('username') && this.cookieService.get('ACCESS_TOKEN')) {
+      this.username = this.cookieService.get('username') ? this.cookieService.get('username') : '';
+      this.ACCESS_TOKEN = this.cookieService.get('ACCESS_TOKEN') ? this.cookieService.get('ACCESS_TOKEN') : '';
+    } else {
       this.router.navigate(['/auth/login']);
     }
   }
-  getUserName():string{
+
+  changeFontSize(newFontSize: string): void {
+    console.log("font-size: ", newFontSize);
+
+  }
+  scrollToOutput(): void {
+    this.outputBox.nativeElement.scrollIntoView();
+  }
+  getUserName(): string {
     return this.cookieService.get('username');
   }
   changeLang(newLang: string): void {
-    
+
     console.log("newLang : ", newLang);
     this.lang = newLang;
     this.cookieService.set('lang', newLang);
@@ -117,72 +129,73 @@ export class EditorComponent implements AfterViewInit {
     const aceEditor = ace.edit(this.editor.nativeElement);
     aceEditor.setTheme(`ace/theme/${this.theme}`);
   }
-  setInput(newInput:string):void{
-    this.inp=newInput;
+  setInput(newInput: string): void {
+    this.inp = newInput;
   }
   getCode(): string {
     return ace.edit(this.editor.nativeElement).getValue();
   }
   runCode(): void {
-    console.log("run code called : ",Date().toString())
-    console.log("input is : ",this.inp);
-    this.isRunning=true;
-    this.isRan=false;
-    this.op=''
-    const runRequestBody:RunCodeRequest={
-      username:this.getUserName(),
-      lang:this.lang,
-      inp:this.inp,
-      code:this.getCode(),
-      ACCESS_TOKEN:this.ACCESS_TOKEN
+    console.log("run code called : ", Date().toString())
+    console.log("input is : ", this.inp);
+    this.isRunning = true;
+    this.isRan = false;
+    this.op = '';
+    const runRequestBody: RunCodeRequest = {
+      username: this.getUserName(),
+      lang: this.lang,
+      inp: this.inp,
+      code: this.getCode(),
+      ACCESS_TOKEN: this.ACCESS_TOKEN
     }
-    this.http.post<RunCodeResponse>(this.runurl,runRequestBody,{'headers':this.headers}).subscribe((response:RunCodeResponse)=>{
-      if(response.result.error) this.op=response.result.error;
-      else{
-        this.op=response.result.output;
-        this.executionTime=response.result.executionTime;
+    this.http.post<RunCodeResponse>(this.runurl, runRequestBody, { 'headers': this.headers }).subscribe((response: RunCodeResponse) => {
+      if (response.result.error) this.op = response.result.error;
+      else {
+        this.op = response.result.output;
+        this.executionTime = response.result.executionTime;
       }
-      this.isRunning=false;
-      this.isRan=true;
-    },(error)=>{
-      console.log("could not authenticate user",error)
+      this.isRunning = false;
+      this.isRan = true;
+      this.scrollToOutput();
+    }, (error) => {
+      console.log("could not authenticate user", error)
       this.router.navigate(['/auth/login'])
     })
   }
   submitCode(): void {
-    console.log("submit code called : ",Date().toString())
-    this.isSubmitting=true;
-    this.isSubmitted=false;
-    this.isRan=false;
-    this.op=''
-    const submitRequestBody:SubmitCodeRequest={
-      problemcode:this.problemcode,
-      username:this.getUserName(),
-      lang:this.lang,
-      inp:'',
-      code:this.getCode(),
-      ACCESS_TOKEN:this.ACCESS_TOKEN
+    console.log("submit code called : ", Date().toString())
+    this.isSubmitting = true;
+    this.isSubmitted = false;
+    this.isRan = false;
+    this.op = ''
+    const submitRequestBody: SubmitCodeRequest = {
+      problemcode: this.problemcode,
+      username: this.getUserName(),
+      lang: this.lang,
+      inp: '',
+      code: this.getCode(),
+      ACCESS_TOKEN: this.ACCESS_TOKEN
     }
-    this.http.post<SubmitCodeResponse>(this.submiturl,submitRequestBody,{'headers':this.headers}).subscribe((response:SubmitCodeResponse)=>{
-      if(response.result.error) this.op=response.result.error;
-      this.executionTime=response.result.executionTime;
-      this.status=response.result.status;
-      this.isSubmitting=false;
-      this.isSubmitted=true;
-      this.isRan=true;
-      const problem=response.problem;
-      console.log('response',response)
-      if(response.problem && this.setProblem){
+    this.http.post<SubmitCodeResponse>(this.submiturl, submitRequestBody, { 'headers': this.headers }).subscribe((response: SubmitCodeResponse) => {
+      if (response.result.error) this.op = response.result.error;
+      this.executionTime = response.result.executionTime;
+      this.status = response.result.status;
+      this.isSubmitting = false;
+      this.isSubmitted = true;
+      this.isRan = true;
+      const problem = response.problem;
+      console.log('response', response)
+      if (response.problem && this.setProblem) {
         this.setProblem(problem)
       }
-    },(error)=>{
-      console.log("could not authenticate user : ",error);
+    }, (error) => {
+      console.log("could not authenticate user : ", error);
       this.router.navigate(['/auth/login']);
     })
   }
-  
+
   ngAfterViewInit(): void {
-    
+
     if (!this.cookieService.get('lang')) {
       this.cookieService.set('lang', this.lang);
     } else {
@@ -195,18 +208,26 @@ export class EditorComponent implements AfterViewInit {
     }
 
 
-    ace.config.set("fontSize", "14px");
     ace.config.set(
       "basePath",
       "https://unpkg.com/ace-builds@1.4.12/src-noconflict"
     );
+    // ace.config.set(
+    //   "basePath",
+    //   "https://unpkg.com/ace-builds@1.3.3/src-noconflict"
+    // );
+    
 
     const aceEditor = ace.edit(this.editor.nativeElement);
     aceEditor.session.setValue("");
 
     aceEditor.setTheme(`ace/theme/${this.theme}`);
     aceEditor.session.setMode(`ace/mode/${this.lang}`);
-
+    aceEditor.setOptions({
+      enableBasicAutocompletion: true,
+      enableSnippets: true,
+      enableLiveAutocompletion: true
+    })
     this.setInput(this.sampleinput);
   }
 

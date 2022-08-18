@@ -1,50 +1,80 @@
 <!-- <p>editor works!</p> -->
-<navbar>
-    <select [(ngModel)]="lang" (change)="changeLang(lang)">
-        <option *ngFor="let clang of langs" [ngValue]="clang">{{clang}}</option>
-    </select>
-    <select [(ngModel)]="theme" (change)="changeTheme(theme)">
-        <option *ngFor="let ctheme of themes" [ngValue]="ctheme">{{ctheme}}</option>
-    </select>
-    <button #runTrigger (click)="runCode()">run</button>
-    <button 
-        *ngIf="isProblem"
-        #submitTrigger 
-        (click)="submitCode()"
+
+<div class="editor-wrapper">
+<div *ngIf="isRunning ;">
+    <app-loading
+        [text]="'Running your code ...'"
     >
-        submit
-    </button>
-    <button *ngIf="isRan" disabled>
-        execution time : {{executionTime.toFixed(2)}} ms
-    </button>
-    <span *ngIf="isProblem && !isSubmitting && isSubmitted">
-        <h3>{{status}}</h3>
-    </span>
-</navbar>
-<div 
-    class="app-ace-editor" 
-    #editor 
-    style="width:500px;height:250px"
-    (keydown.control.enter)="runCode()"
-    (keydown.control.shift.enter)="isProblem?submitCode():runCode()"
->
-</div>
-<div *ngIf="isRunning">
-    Running your code ...
+    </app-loading>
 </div>
 <div *ngIf="isSubmitting">
-    Judging your code ...
+    <app-loading
+        [text]="'Judging your code ...'"
+    >
+    </app-loading>
 </div>
 <div>
-    <label>input : </label><br />
-    <textarea [ngModel]="inp" (ngModelChange)="setInput($event)">
+    <navbar>
+        <select [(ngModel)]="lang" (change)="changeLang(lang)">
+            <option *ngFor="let clang of langs" [ngValue]="clang">{{clang}}</option>
+        </select>
+
+        <select [(ngModel)]="theme" (change)="changeTheme(theme)">
+            <option *ngFor="let ctheme of themes" [ngValue]="ctheme">{{ctheme}}</option>
+        </select>
+
+        <select [(ngModel)]="fontsize" (change)="changeFontSize(fontsize)">
+            <option *ngFor="let cfontsize of fontsizes" [ngValue]="cfontsize">{{cfontsize}}</option>
+        </select>
+
+        <!-- <button #runTrigger (click)="runCode()">run</button>
+        <button *ngIf="isProblem" #submitTrigger (click)="submitCode()">
+            submit
+        </button>
+        <button *ngIf="isRan" disabled>
+            execution time : {{executionTime.toFixed(2)}} ms
+        </button>
+        <span *ngIf="isProblem && !isSubmitting && isSubmitted">
+            <h3>{{status}}</h3>
+        </span> -->
+    </navbar>
+    <div 
+        class="app-ace-editor"
+        [ngStyle]="{'font-size': fontsize}"
+        #editor 
+        (keydown.control.enter)="runCode()"
+        (keydown.control.shift.enter)="isProblem?submitCode():runCode()">
+    </div>
+    <br/>
+    <navbar class="navbar">
+        <button #runTrigger (click)="runCode()">
+             run
+        </button>
+        <button *ngIf="isProblem" #submitTrigger (click)="submitCode()">
+            submit
+        </button>
+        <button *ngIf="isRan" [class]="isProblem?'third':'half'" disabled>
+            executed in {{(executionTime/100.00).toFixed(2)}} seconds
+        </button>
+        <span *ngIf="isProblem && !isSubmitting && isSubmitted">
+            <h3>{{status}}</h3>
+        </span>
+    </navbar>
+
+    <br/><br/>
+
+    <div>
+        <label>input : </label><br />
+        <textarea [ngModel]="inp" (ngModelChange)="setInput($event)">
     </textarea>
-</div>
-<div>
-    <label>output : </label><br />
-    <textarea [ngModel]="op" #outputBox>
+    </div>
+    <div>
+        <label>output : </label><br />
+        <textarea [ngModel]="op" #outputBox>
     </textarea>
+    </div>
+    <div *ngIf="isProblem && !isSubmitting && isSubmitted">
+        <h3>{{status}}</h3>
+    </div>
 </div>
-<div *ngIf="isProblem && !isSubmitting && isSubmitted">
-    <h3>{{status}}</h3>
 </div>
