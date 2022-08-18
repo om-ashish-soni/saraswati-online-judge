@@ -27,6 +27,7 @@ import { ProblemListComponent } from './problem-list/problem-list.component';
 import { DifficultyProblemsComponent } from './difficulty-problems/difficulty-problems.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoadingComponent } from './loading/loading.component';
+import { RollingComponent } from './rolling/rolling.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +46,8 @@ import { LoadingComponent } from './loading/loading.component';
     TagProblemsComponent,
     ProblemListComponent,
     DifficultyProblemsComponent,
-    LoadingComponent
+    LoadingComponent,
+    RollingComponent
   ],
   imports: [
     BrowserModule,

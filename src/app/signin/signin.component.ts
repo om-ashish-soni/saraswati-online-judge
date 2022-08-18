@@ -22,6 +22,7 @@ export class SigninComponent implements OnInit {
   body = {}
   isInvalidCred = false;
   errorMessage:string='';
+  isSigningIn:boolean=false;
   constructor(private http: HttpClient, private router: Router,private cookieService:CookieService) { }
 
   ngOnInit(): void {
@@ -33,7 +34,9 @@ export class SigninComponent implements OnInit {
   }
 
   onSignin(f: NgForm) {
+    
     if(f.valid){
+      this.isSigningIn=true;
       let { username, password, fullname, country, state, city, profession, institute }: { username: string, password: string , fullname:string, country:string, state:string, city:string, profession:string, institute:string} = f.value;
       this.body = f.value;
       this.http.post<SigninResponse>(this.url, this.body, { 'headers': this.headers }).subscribe((response) => {
@@ -51,11 +54,14 @@ export class SigninComponent implements OnInit {
           this.isInvalidCred = true;
           console.log('response',response)
         }
+        this.isSigningIn=false;
       },(error)=>{
         this.isInvalidCred=true;
         console.log("could not authenticate , try again")
         console.log("error.msg: ",error.error.msg)
         this.errorMessage=error.error.msg;
+        this.isSigningIn=false;
+
       })
     }else{
       this.isInvalidCred=true;

@@ -1,14 +1,41 @@
-<!-- <p>login works!</p> -->
 
-<div>
-    <div *ngIf="isInvalidCred">
+<div *ngIf="isLoggingIn">
+    <app-loading
+        [text]="'logging you in ...'"
+    >
+    </app-loading>
+</div>
+<div *ngIf="!isLoggingIn">
+    <app-rolling>
+    </app-rolling>
+</div>
+<div class="login-wrapper">
+    <div *ngIf="isInvalidCred" class="invalid-cred">
         <p>{{this.errorMessage}}</p>
         <p>Please enter valid credentials</p>
     </div>
     <form #f="ngForm" (ngSubmit)="onLogin(f)" novalidate>
-        <label>username : </label><input type="text" name="username" ngModel required/><br/>
-        <label>password : </label><input type="password" name="password" ngModel required/><br/>
-        <button >login</button>
+        <tr>
+            <td>
+                username :
+                <input type="text" name="username" ngModel required />
+            </td>
+        </tr>
+        <br />
+        <tr>
+            <td>
+                password :
+                <input type="password" name="password" ngModel required />
+            </td>
+        </tr>
+        <br />
+        <button>login</button>
+        
     </form>
-    <a routerLink="/auth/signin">signin</a>
+    <a routerLink="/auth/signin">
+        <button>
+            Not a user ? Signin
+        </button>
+    </a>
+
 </div>

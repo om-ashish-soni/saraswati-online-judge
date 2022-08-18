@@ -18,6 +18,8 @@ export class HomeComponent implements OnInit {
     
     if(!this.cookieService.get('username') || !this.cookieService.get('password')){
       this.router.navigate(['/auth/login'])
+    }else{
+      this.router.navigate(['/problems'])
     }
   }
 

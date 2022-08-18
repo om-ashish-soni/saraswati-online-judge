@@ -23,7 +23,8 @@ export class LoginComponent implements OnInit {
   headers={ "Content-Type": "application/json" }
   body={}
 
-  isInvalidCred=false;
+  isInvalidCred:boolean=false;
+  isLoggingIn:boolean=false;
   errorMessage:string="";
   constructor(private http : HttpClient,private router:Router,private cookieService : CookieService) {
 
@@ -38,29 +39,37 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(f: NgForm) {
-    let { username, password }: { username: string, password: string } = f.value;
-    this.body=f.value;
-    this.http.post<LoginResponse>(this.url,this.body,{'headers':this.headers}).subscribe((response)=>{
-      let status:string=response.accepted;
-      let userdirpath:string=response.userdirpath;
-      if(status=='yes'){
-        this.isInvalidCred=false;
-        this.cookieService.set('username',username,10,undefined,undefined,true,'Strict');
-        this.cookieService.set('password',password,10,undefined,undefined,true,'Strict');
-        const ACCESS_TOKEN=response.ACCESS_TOKEN;
-        // console.log("ACCESS_TOKEN",ACCESS_TOKEN);
-        this.cookieService.set('ACCESS_TOKEN',ACCESS_TOKEN,10,undefined,undefined,true,'Strict');
-        this.router.navigate(['home'])
-      }else{
+    if(f.valid){
+      this.isLoggingIn=true;
+      let { username, password }: { username: string, password: string } = f.value;
+      this.body=f.value;
+      this.http.post<LoginResponse>(this.url,this.body,{'headers':this.headers}).subscribe((response)=>{
+        let status:string=response.accepted;
+        let userdirpath:string=response.userdirpath;
+        if(status=='yes'){
+          this.isInvalidCred=false;
+          this.cookieService.set('username',username,10,undefined,undefined,true,'Strict');
+          this.cookieService.set('password',password,10,undefined,undefined,true,'Strict');
+          const ACCESS_TOKEN=response.ACCESS_TOKEN;
+          // console.log("ACCESS_TOKEN",ACCESS_TOKEN);
+          this.cookieService.set('ACCESS_TOKEN',ACCESS_TOKEN,10,undefined,undefined,true,'Strict');
+          this.router.navigate(['home'])
+        }else{
+          this.isInvalidCred=true;
+          // alert('please enter valid data')
+        }
+        this.isLoggingIn=false;
+      },(error)=>{
         this.isInvalidCred=true;
-        // alert('please enter valid data')
-      }
-    },(error)=>{
+        console.log("could not authenticate , try again");
+        console.log("could not authenticate , try again")
+        console.log("error.msg: ",error.error.msg)
+        this.errorMessage=error.error.msg;
+        this.isLoggingIn=false;
+      })
+    }else{
       this.isInvalidCred=true;
-      console.log("could not authenticate , try again");
-      console.log("could not authenticate , try again")
-      console.log("error.msg: ",error.error.msg)
-      this.errorMessage=error.error.msg;
-    })
+    }
+    
   }
 }
