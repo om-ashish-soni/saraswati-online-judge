@@ -62,12 +62,14 @@ export class EditorComponent implements AfterViewInit {
   @Input() problemcode: string = '';
   @Input() sampleinput: string = '';
   @Input() setProblem: any = null;
+  
   status: string = '';
 
   @ViewChild("editor") private editor!: ElementRef<HTMLElement>;
   @ViewChild("inputBox") private inputBox!: ElementRef<HTMLTextAreaElement>;
   @ViewChild("outputBox") private outputBox!: ElementRef<HTMLTextAreaElement>;
-
+  @ViewChild("statusComponent") private statusComponent!: ElementRef<HTMLTextAreaElement>;
+  
   API_PATH: string = environment.API_PATH;
   runurl: string = `${this.API_PATH}/executor/run`;
   submiturl: string = `${this.API_PATH}/submit/judge`;
@@ -109,7 +111,10 @@ export class EditorComponent implements AfterViewInit {
 
   }
   scrollToOutput(): void {
-    this.outputBox.nativeElement.scrollIntoView();
+    this.outputBox.nativeElement.scrollIntoView({behavior: "smooth"});
+  }
+  scrollToStatus():void{
+    this.statusComponent.nativeElement.scrollIntoView({behavior: "smooth"});
   }
   getUserName(): string {
     return this.cookieService.get('username');
@@ -188,6 +193,7 @@ export class EditorComponent implements AfterViewInit {
       if (response.problem && this.setProblem) {
         this.setProblem(problem)
       }
+      this.scrollToStatus();
     }, (error) => {
       console.log("could not authenticate user : ", error);
       this.router.navigate(['/auth/login']);

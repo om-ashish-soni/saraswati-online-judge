@@ -1,33 +1,29 @@
 <!-- <p>editor works!</p> -->
 
 <div class="editor-wrapper">
-<div *ngIf="isRunning ;">
-    <app-loading
-        [text]="'Running your code ...'"
-    >
-    </app-loading>
-</div>
-<div *ngIf="isSubmitting">
-    <app-loading
-        [text]="'Judging your code ...'"
-    >
-    </app-loading>
-</div>
-<div>
-    <navbar>
-        <select [(ngModel)]="lang" (change)="changeLang(lang)">
-            <option *ngFor="let clang of langs" [ngValue]="clang">{{clang}}</option>
-        </select>
+    <div *ngIf="isRunning ;">
+        <app-loading [text]="'Running your code ...'">
+        </app-loading>
+    </div>
+    <div *ngIf="isSubmitting">
+        <app-loading [text]="'Judging your code ...'">
+        </app-loading>
+    </div>
+    <div>
+        <navbar>
+            <select [(ngModel)]="lang" (change)="changeLang(lang)">
+                <option *ngFor="let clang of langs" [ngValue]="clang">{{clang}}</option>
+            </select>
 
-        <select [(ngModel)]="theme" (change)="changeTheme(theme)">
-            <option *ngFor="let ctheme of themes" [ngValue]="ctheme">{{ctheme}}</option>
-        </select>
+            <select [(ngModel)]="theme" (change)="changeTheme(theme)">
+                <option *ngFor="let ctheme of themes" [ngValue]="ctheme">{{ctheme}}</option>
+            </select>
 
-        <select [(ngModel)]="fontsize" (change)="changeFontSize(fontsize)">
-            <option *ngFor="let cfontsize of fontsizes" [ngValue]="cfontsize">{{cfontsize}}</option>
-        </select>
+            <select [(ngModel)]="fontsize" (change)="changeFontSize(fontsize)">
+                <option *ngFor="let cfontsize of fontsizes" [ngValue]="cfontsize">{{cfontsize}}</option>
+            </select>
 
-        <!-- <button #runTrigger (click)="runCode()">run</button>
+            <!-- <button #runTrigger (click)="runCode()">run</button>
         <button *ngIf="isProblem" #submitTrigger (click)="submitCode()">
             submit
         </button>
@@ -37,44 +33,54 @@
         <span *ngIf="isProblem && !isSubmitting && isSubmitted">
             <h3>{{status}}</h3>
         </span> -->
-    </navbar>
-    <div 
-        class="app-ace-editor"
-        [ngStyle]="{'font-size': fontsize}"
-        #editor 
-        (keydown.control.enter)="runCode()"
-        (keydown.control.shift.enter)="isProblem?submitCode():runCode()">
-    </div>
-    <br/>
-    <navbar class="navbar">
-        <button #runTrigger (click)="runCode()">
-             run
-        </button>
-        <button *ngIf="isProblem" #submitTrigger (click)="submitCode()">
-            submit
-        </button>
-        <button *ngIf="isRan" [class]="isProblem?'third':'half'" disabled>
-            executed in {{(executionTime/100.00).toFixed(2)}} seconds
-        </button>
-        <span *ngIf="isProblem && !isSubmitting && isSubmitted">
-            <h3>{{status}}</h3>
-        </span>
-    </navbar>
+        </navbar>
+        <div *ngIf="isProblem && !isSubmitting && isSubmitted" class="status-box" #statusComponent>
+            <center>
+                <div [class]="status">
+                    {{status}}
+                </div>
+            </center>
+        </div>
+        <div class="app-ace-editor" [ngStyle]="{'font-size': fontsize}" #editor (keydown.control.enter)="runCode()"
+            (keydown.control.shift.enter)="isProblem?submitCode():runCode()">
+        </div>
+        <br />
+        <navbar class="navbar">
+            <button #runTrigger (click)="runCode()">
+                run
+            </button>
+            <button *ngIf="isProblem" #submitTrigger [class]="isRan?'third':'half'" (click)="submitCode()">
+                submit
+            </button>
+            <button *ngIf="isRan" [class]="isProblem?'third':'half'" disabled>
+                executed in {{(executionTime/100.00).toFixed(2)}} seconds
+            </button>
+            <!-- <span *ngIf="isProblem && !isSubmitting && isSubmitted">
+                <h3>{{status}}</h3>
+            </span> -->
+        </navbar>
 
-    <br/><br/>
+        <div *ngIf="isProblem && !isSubmitting && isSubmitted" class="status-box" #statusComponent>
+            <center>
+                <div [class]="status">
+                    {{status}}
+                </div>
+            </center>
+        </div>
+        <br /><br />
 
-    <div>
-        <label>input : </label><br />
-        <textarea [ngModel]="inp" (ngModelChange)="setInput($event)">
+        <div>
+            <label>input : </label><br />
+            <textarea [ngModel]="inp" (ngModelChange)="setInput($event)">
     </textarea>
+        </div>
+        <div>
+            <label>output : </label><br />
+            <textarea [ngModel]="op" #outputBox disabled>
+            </textarea>
+        </div>
+
     </div>
-    <div>
-        <label>output : </label><br />
-        <textarea [ngModel]="op" #outputBox>
-    </textarea>
-    </div>
-    <div *ngIf="isProblem && !isSubmitting && isSubmitted">
-        <h3>{{status}}</h3>
-    </div>
-</div>
+
+
 </div>

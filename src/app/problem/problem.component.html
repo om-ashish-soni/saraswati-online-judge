@@ -5,87 +5,125 @@
     </ng-container>
     <ng-template #loadingProblem>
         <ng-container *ngIf="isFetchingProblem ; else problemDetails">
-            Fetching Problem ...
+            <!-- Fetching Problem ... -->
+            <app-loading [text]="'Fetching Problem ... '">
+
+            </app-loading>
         </ng-container>
     </ng-template>
     <ng-template #problemDetails>
+        <tr>
+            <td>
+                {{problem.problemcode.toLocaleUpperCase().replace('_',' ')}}
+                &nbsp;&nbsp;
+                (
+                <a routerLink="/problems/difficulty/{{problem.difficulty}}" target="_blank">
+                    {{problem.difficulty}}
+                </a>
+                )
+            </td>
+        </tr>
+        <tr>
+            <div class="problem-content">
+                <p *ngFor="let cline of problemDisplay.description" [ngValue]="cline">
+                    {{cline}}
+                </p>
+            </div>
+        </tr>
 
-        <h3>
-            {{problem.problemcode.toLocaleUpperCase().replace('_',' ')}}
-            |
-            (
-            <a routerLink="/problems/difficulty/{{problem.difficulty}}">
-                {{problem.difficulty}}
-            </a>
-            )
-        </h3>
-        <div>
+        <br />
 
-            <p *ngFor="let cline of problemDisplay.description" [ngValue]="cline">
-                {{cline}}
-            </p>
-        </div>
-        <div>
-            <h4>constraints : </h4>
+        <tr>
+            <td>constraints : </td>
+        </tr>
+        <div class="problem-content">
             <p *ngFor="let c_constraint of problemDisplay.constraints" [ngValue]="c_constraint">
                 {{c_constraint}}
             </p>
         </div>
-        <div>
-            <h4>sample input : </h4>
+        <tr>
+            <td>sample input : </td>
+        </tr>
+        <div class="problem-content">
             <p *ngFor="let cinput of problemDisplay.sampleinput" [ngValue]="cinput">
                 {{cinput}}
             </p>
         </div>
-        <div #sampleOutput>
-            <h4>sample output : </h4>
+
+        <br />
+
+        <tr>
+            <td>
+                sample output :
+            </td>
+        </tr>
+        <div class="problem-content">
             <p *ngFor="let coutput of problemDisplay.sampleoutput" [ngValue]="coutput">
                 {{coutput}}
             </p>
         </div>
+
+        <br />
+
         <app-editor #editorComponent [isProblem]="true" [problemcode]="problem.problemcode"
             [sampleinput]="problem.sampleinput" [setProblem]="setProblem">
         </app-editor>
         <div>
-            <p>
+            <tr>
                 <td>
                     <label>setter:</label>
                 </td>
                 <td>
                     <a routerLink="/profile/{{problem.setter}}" target="_blank">{{problem.setter}}</a>
                 </td>
-            </p>
+            </tr>
         </div>
         <div>
-            <p>
+            <tr>
                 <td>
                     <label>tester:</label>
                 </td>
                 <td>
                     <a routerLink="/profile/{{problem.tester}}" target="_blank">{{problem.tester}}</a>
                 </td>
-            </p>
+            </tr>
         </div>
         <div *ngIf="isSubmissionsUpdated">
-            <p>
-                <label>correctSubmissions:</label>
-                <span #correctSubmissions>{{problem.correctSubmissions}}</span>
-            </p>
+            <tr>
+                <td>
+                    correct submissions:
+                </td>
+                <td #correctSubmissions>
+                    {{problem.correctSubmissions}}
+                </td>
+            </tr>
         </div>
         <div *ngIf="isSubmissionsUpdated">
-            <p>
-                <label>totalSubmissions:</label>
-                <span #totalSubmissions>{{problem.totalSubmissions}}</span>
-            </p>
+            <tr>
+                <td>
+                    total submissions:
+                </td>
+                <td #totalSubmissions>
+                    {{problem.totalSubmissions}}
+                </td>
+            </tr>
         </div>
         <div>
-            <p>
-                <label>tags : </label>
-                <span *ngFor="let ctag of problem.tags" [ngValue]="ctag">
-                    <a routerLink="/problems/tags/{{ctag}}" target="_blank">{{ctag}}</a>
-                    <span> , </span>
-                </span>
-            </p>
+            <tr>
+                <td>
+                    tags :
+                </td>
+                <td>
+
+                    <a *ngFor="let ctag of problem.tags ; let i=index" routerLink="/problems/tags/{{ctag}}"
+                        target="_blank">
+                        {{ctag}}
+                        {{
+                        (i+1 < problem.tags.length)?(' , '):(' ')
+                        }}
+                    </a>
+                </td>
+            </tr>
         </div>
     </ng-template>
 </div>

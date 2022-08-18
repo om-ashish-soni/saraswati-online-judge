@@ -4,7 +4,11 @@
 </div>
 
 <div *ngIf="isFetchingProblems">
-    Fetching Problems ...
+    
+    <app-loading
+        [text]="'Loading Problems ... '"
+    >
+    </app-loading>
 </div>
 
 

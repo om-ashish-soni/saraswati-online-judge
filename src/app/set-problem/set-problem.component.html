@@ -100,9 +100,23 @@
 
             <button>Submit</button>
         </form>
+        <div class="notes">
+            <br/>
+            <label>
+                Available Tags : 
+            </label>
+            <br/><br/>
+            <div>
+                <span *ngFor="let ctag of problemtags ; let i=index">
+                    <a routerLink="/problems/tags/{{ctag}}" target="_blank">
+                        {{ctag}}
+                        {{
+                        (i+1 < problemtags.length)?(' , '):(' ')
+                    }}
+                    </a>
+                </span>
+            </div>
+        </div>
     </div>
-    <p>available tags : </p>
-    <div>
-        <span *ngFor="let ctag of problemtags">{{ctag}} , </span>
-    </div>
+    
 </div>
