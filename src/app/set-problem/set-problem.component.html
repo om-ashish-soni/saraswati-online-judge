@@ -6,7 +6,8 @@
     <p *ngIf="isInValidForm">
         {{msg}}
     </p>
-    <form #f="ngForm" (ngSubmit)="onSubmitProblem(f)">
+    <div class="set-problem-wrapper">
+    <form #f="ngForm" class="set-problem-form" (ngSubmit)="onSubmitProblem(f)">
         <label>problemcode : </label>
         <br />
 
@@ -56,6 +57,12 @@
             </textarea>
         <br />
 
+        <label>tags (give comma seperated tags , as per available tags): </label>
+        <br />
+        <textarea class='form-control' type="text" name="tags" ngModel required>
+        </textarea>
+        <br />
+
         <label>difficulty : </label>
         <br />
 
@@ -89,13 +96,11 @@
         <input type="text" name="tester" ngModel required />
         <br />
         
-        <label>tags (give comma seperated tags , as per available tags): </label>
-        <br />
-        <input type="text" name="tags" ngModel required />
-        <br />
+        
 
         <button>Submit</button>
     </form>
+    </div>
     <p>available tags : </p>
     <div >
         <span *ngFor="let ctag of problemtags">{{ctag}} , </span>

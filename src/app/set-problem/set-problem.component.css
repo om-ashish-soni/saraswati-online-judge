@@ -1,0 +1,23 @@
+.set-problem-wrapper{
+    align-items: justify;
+    margin-left:5%;
+    margin-right:5%;
+    margin-top:2%;
+    min-width:90%;
+    font-size:calc(0.70vw + 0.40vh + 0.40em);
+}
+.set-problem-form{
+    margin-left:15%;
+}
+label{
+    min-width:15%;
+    color:rgb(45, 45, 45);
+}
+textarea{
+    margin-top:2%;
+    margin-bottom:2%;
+    margin-right:15%;
+    min-width:70%;
+    overflow: auto;
+    min-height: 20vh;
+}

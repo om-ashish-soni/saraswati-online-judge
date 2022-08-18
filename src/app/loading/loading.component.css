@@ -23,9 +23,8 @@
 }
 
 @keyframes logo{
-    0% {margin-left:30%;margin-top:0%;width:7vw;transform: rotate(360deg);}
-    25%{margin-left:60%;margin-top:30%;width:15vw;transform: rotate(180deg);}
-    50% {margin-left:30%;margin-top:15%;width:10vw;transform: rotate(0deg);}
-    75%{margin-left:60%;margin-top:30%;width:15vw;transform: rotate(-180deg);}
-    100% {margin-left:0%;margin-top:15%;width:7vw;transform: rotate(-360deg);}
+    0% {margin-left:0%;margin-top:15%;width:7vw;transform: rotate(360deg);}
+    33%{margin-left:30%;margin-top:0%;width:15vw;transform: rotate(180deg);}
+    66% {margin-left:60%;margin-top:15%;width:10vw;transform: rotate(0deg);}
+    100% {margin-left:30%;margin-top:30%;width:7vw;transform: rotate(-360deg);}
   }
