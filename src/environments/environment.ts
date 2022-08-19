@@ -50,7 +50,18 @@ export const environment = {
     '20px',
     '22px',
     '24px'
+  ],
+  langs:[
+    "python",
+    "javascript",
+    "c_cpp",
+    "java"
+  ],
+  themes:[
+    "monokai",
+    "textmate"
   ]
+
 };
 
 /*

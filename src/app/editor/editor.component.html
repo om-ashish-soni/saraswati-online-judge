@@ -9,6 +9,11 @@
         <app-loading [text]="'Judging your code ...'">
         </app-loading>
     </div>
+    <!-- <div class="alert-container">
+        <app-alert [text]="'backup is taken'" [isHidden]="false">
+        </app-alert>
+    </div> -->
+
     <div>
         <navbar>
             <select [(ngModel)]="lang" (change)="changeLang(lang)">
@@ -23,16 +28,9 @@
                 <option *ngFor="let cfontsize of fontsizes" [ngValue]="cfontsize">{{cfontsize}}</option>
             </select>
 
-            <!-- <button #runTrigger (click)="runCode()">run</button>
-        <button *ngIf="isProblem" #submitTrigger (click)="submitCode()">
-            submit
-        </button>
-        <button *ngIf="isRan" disabled>
-            execution time : {{executionTime.toFixed(2)}} ms
-        </button>
-        <span *ngIf="isProblem && !isSubmitting && isSubmitted">
-            <h3>{{status}}</h3>
-        </span> -->
+            <button (click)="backupCode()" class="nav-above-editor">
+                backup
+            </button>
         </navbar>
         <div *ngIf="isProblem && !isSubmitting && isSubmitted" class="status-box" #statusComponent>
             <center>
@@ -41,8 +39,14 @@
                 </div>
             </center>
         </div>
-        <div class="app-ace-editor" [ngStyle]="{'font-size': fontsize}" #editor (keydown.control.enter)="runCode()"
-            (keydown.control.shift.enter)="isProblem?submitCode():runCode()">
+        <div 
+            class="app-ace-editor" 
+            [ngStyle]="{'font-size': fontsize}" 
+            #editor 
+            (keydown.control.enter)="runCode()"
+            (keydown.control.shift.enter)="isProblem?submitCode():runCode()"
+            (keydown.control.s)="backupCode()"
+        >
         </div>
         <br />
         <navbar class="navbar">

@@ -29,8 +29,8 @@ export class SigninComponent implements OnInit {
     this.cookieService.delete('username');
     this.cookieService.delete('password');
     this.cookieService.delete('ACCESS_TOKEN');
-    this.cookieService.delete('lang');
-    this.cookieService.delete('theme');
+    // this.cookieService.delete('lang');
+    // this.cookieService.delete('theme');
   }
 
   onSignin(f: NgForm) {

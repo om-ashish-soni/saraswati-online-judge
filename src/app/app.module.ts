@@ -28,6 +28,7 @@ import { DifficultyProblemsComponent } from './difficulty-problems/difficulty-pr
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoadingComponent } from './loading/loading.component';
 import { RollingComponent } from './rolling/rolling.component';
+import { AlertComponent } from './alert/alert.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +48,8 @@ import { RollingComponent } from './rolling/rolling.component';
     ProblemListComponent,
     DifficultyProblemsComponent,
     LoadingComponent,
-    RollingComponent
+    RollingComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

@@ -89,14 +89,8 @@ export class EditorComponent implements AfterViewInit {
   inp: string = '';
   op: string = '';
   executionTime: number = 0;
-  langs: string[] = [
-    "python",
-    "javascript"
-  ];
-  themes: string[] = [
-    "monokai",
-    "textmate"
-  ]
+  langs: string[] = environment.langs;
+  themes: string[] = environment.themes;
   constructor(private router: Router, private http: HttpClient, private cookieService: CookieService) {
     if (this.cookieService.get('username') && this.cookieService.get('ACCESS_TOKEN')) {
       this.username = this.cookieService.get('username') ? this.cookieService.get('username') : '';
@@ -126,7 +120,8 @@ export class EditorComponent implements AfterViewInit {
     this.cookieService.set('lang', newLang);
     const aceEditor = ace.edit(this.editor.nativeElement);
     aceEditor.session.setMode(`ace/mode/${this.lang}`);
-    aceEditor.setValue('');
+    this.restoreBackupCode();
+    // aceEditor.setValue('');
   }
   changeTheme(newTheme: string): void {
     this.theme = newTheme;
@@ -139,6 +134,26 @@ export class EditorComponent implements AfterViewInit {
   }
   getCode(): string {
     return ace.edit(this.editor.nativeElement).getValue();
+    
+  }
+  setCode(newCode:string):void{
+    ace.edit(this.editor.nativeElement).setValue(newCode);
+  }
+  getBufferKey():string{
+    return this.lang+"_"+"template";
+  }
+  backupCodeWithoutAlert():void{
+    this.cookieService.set(this.getBufferKey(),this.getCode(),360,undefined,undefined,true,'Strict');
+  }
+  backupCode():void{
+    this.cookieService.set(this.getBufferKey(),this.getCode(),360,undefined,undefined,true,'Strict');
+    alert('Your code is saved as backup');
+  }
+  getBackupCode():string{
+    return this.cookieService.get(this.getBufferKey())?this.cookieService.get(this.getBufferKey()):'';
+  }
+  restoreBackupCode():void{
+    this.setCode(this.getBackupCode());
   }
   runCode(): void {
     console.log("run code called : ", Date().toString())
@@ -235,6 +250,7 @@ export class EditorComponent implements AfterViewInit {
       enableLiveAutocompletion: true
     })
     this.setInput(this.sampleinput);
+    this.restoreBackupCode();
   }
 
 

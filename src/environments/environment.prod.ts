@@ -1,7 +1,7 @@
 export const environment = {
-  production: true,
+  production: false,
   API_PATH:'https://api-saraswati-coding-club.herokuapp.com',
-  // API_PATH:'http://localhost:29842',  
+  // API_PATH:'http://localhost:29842',
   problemtags:[
     'implementation',
     'math',
@@ -47,5 +47,15 @@ export const environment = {
     '20px',
     '22px',
     '24px'
+  ],
+  langs:[
+    "python",
+    "javascript",
+    "c_cpp",
+    "java"
+  ],
+  themes:[
+    "monokai",
+    "textmate"
   ]
 };
