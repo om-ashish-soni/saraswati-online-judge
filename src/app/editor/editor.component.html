@@ -4,6 +4,8 @@
     <div *ngIf="isRunning ;">
         <app-loading [text]="'Running your code ...'">
         </app-loading>
+        <!-- <app-rolling [text]="'Running your code ...'">
+        </app-rolling> -->
     </div>
     <div *ngIf="isSubmitting">
         <app-loading [text]="'Judging your code ...'">
@@ -55,11 +57,11 @@
                 <button #runTrigger [class]="isRan?'third':'half'" (click)="runCode()" class="below-button">
                     run
                 </button>
-                <button *ngIf="isProblem" [class]="isRan?'third':'half'" #submitTrigger [class]="isRan?'third':'half'" (click)="submitCode()" class="below-button">
+                <button [class]="isRan?'third':'half'" #submitTrigger [class]="isRan?'third':'half'" (click)="submitCode()" class="below-button">
                     submit
                 </button>
                 <button *ngIf="isRan" [class]="isRan?'third':''" class='below-button' disabled>
-                    executed in {{(executionTime/100.00).toFixed(2)}} seconds
+                    {{(executionTime/100.00).toFixed(2)}} sec
                 </button>
             </navbar>
             </div>
