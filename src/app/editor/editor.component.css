@@ -2,15 +2,20 @@
     
     border: 2px solid #f8f9fa;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    width:100%;
-    height:70vh;
+    width:70%;
+    height:85vh;
     font-size:1.5vw;
+    display: inline-block;
 }
 .alert-container{
     width:95%;
 }
 .editor-wrapper{
     font-size:calc(1vw + 0.40vh + 0.40em);
+}
+.io-container{
+    width:25%;
+    display: inline-block;
 }
 select{
     font-size:calc(0.70vw + 0.40vh + 0.40em);
@@ -47,9 +52,10 @@ label{
     margin-top:2%;
 }
 textarea{
-    
+    height:40vh;
+    margin-top:2%;
     margin-bottom:2%;
-    margin-right:15%;
+    /* margin-right:15%; */
     width:100%;
     overflow: auto;
     min-height: 20vh;

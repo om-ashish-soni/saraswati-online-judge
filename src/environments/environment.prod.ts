@@ -1,9 +1,9 @@
 export const environment = {
   production: false,
-  API_PATH:'https://api-soj.herokuapp.com',
+  API_PATH: 'https://api-soj.herokuapp.com',
   // API_PATH:'https://api-saraswati-coding-club.herokuapp.com',
   // API_PATH:'http://localhost:29842',
-  problemtags:[
+  problemtags: [
     'implementation',
     'math',
     'greedy',
@@ -41,7 +41,7 @@ export const environment = {
     'chinese-remainder-theorem',
     'schedules'
   ],
-  fontsizes:[
+  fontsizes: [
     '14px',
     '16px',
     '18px',
@@ -49,14 +49,25 @@ export const environment = {
     '22px',
     '24px'
   ],
-  langs:[
+  langs: [
     "python",
     "javascript",
     "c_cpp",
-    "java"
+    // "java"
   ],
-  themes:[
+  themes: [
     "monokai",
-    "textmate"
+    "github",
+    "idle_fingers",
+    "ambiance",
+    "clouds_midnight",
+    "one_dark",
+    "textmate",
+    "github",
+    "tomorrow",
+    "kuroir",
+    "twilight",
+    "xcode",
+    "terminal"
   ]
 };

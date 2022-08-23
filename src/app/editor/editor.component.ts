@@ -4,6 +4,27 @@ import { Router } from '@angular/router';
 import * as ace from "ace-builds";
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/environments/environment.prod';
+import "ace-builds/src-noconflict/ext-language_tools";
+import "ace-builds/src-noconflict/mode-powershell";
+import "ace-builds/src-noconflict/mode-sh";
+import "ace-builds/src-noconflict/mode-python";
+import "ace-builds/src-noconflict/mode-c_cpp";
+import "ace-builds/src-noconflict/mode-java";
+import "ace-builds/src-noconflict/mode-javascript";
+import "ace-builds/src-noconflict/mode-php";
+import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-noconflict/theme-idle_fingers";
+import "ace-builds/src-noconflict/theme-ambiance";
+import "ace-builds/src-noconflict/theme-clouds_midnight";
+import "ace-builds/src-noconflict/theme-dracula";
+import "ace-builds/src-noconflict/theme-one_dark";
+import "ace-builds/src-noconflict/theme-textmate"; 
+import "ace-builds/src-noconflict/theme-github";
+import "ace-builds/src-noconflict/theme-tomorrow";
+import "ace-builds/src-noconflict/theme-kuroir";
+import "ace-builds/src-noconflict/theme-twilight";
+import "ace-builds/src-noconflict/theme-xcode";
+import "ace-builds/src-noconflict/theme-terminal";
 // import "../../../node_modules/ace-builds/src-min";
 type Problem = {
   problemcode: string,
@@ -228,11 +249,12 @@ export class EditorComponent implements AfterViewInit {
       this.theme = this.cookieService.get('theme');
     }
 
-
+    // ace.require("ace/ext/language_tools");
     ace.config.set(
       "basePath",
       "https://unpkg.com/ace-builds@1.4.12/src-noconflict"
     );
+    // ace.config.set('basePath', '../../../node_modules/ace-builds/src-noconflict');
     // ace.config.set(
     //   "basePath",
     //   "https://unpkg.com/ace-builds@1.3.3/src-noconflict"
@@ -246,8 +268,8 @@ export class EditorComponent implements AfterViewInit {
     aceEditor.session.setMode(`ace/mode/${this.lang}`);
     aceEditor.setOptions({
       enableBasicAutocompletion: true,
-      enableSnippets: true,
-      enableLiveAutocompletion: true
+      enableLiveAutocompletion: true,
+      enableSnippets: true
     })
     this.setInput(this.sampleinput);
     this.restoreBackupCode();

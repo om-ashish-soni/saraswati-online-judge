@@ -39,14 +39,22 @@
                 </div>
             </center>
         </div>
-        <div 
-            class="app-ace-editor" 
-            [ngStyle]="{'font-size': fontsize}" 
-            #editor 
-            (keydown.control.enter)="runCode()"
-            (keydown.control.shift.enter)="isProblem?submitCode():runCode()"
-            (keydown.control.s)="backupCode()"
-        >
+        <div class="editor-container">
+            <div class="app-ace-editor" [ngStyle]="{'font-size': fontsize}" #editor (keydown.control.enter)="runCode()"
+                (keydown.control.shift.enter)="isProblem?submitCode():runCode()" (keydown.control.s)="backupCode()">
+            </div>
+            <div class="io-container">
+                <div>
+                    <label>input : </label><br />
+                    <textarea [ngModel]="inp" (ngModelChange)="setInput($event)">
+                    </textarea>
+                </div>
+                <div>
+                    <label>output : </label><br />
+                    <textarea [ngModel]="op" #outputBox disabled>
+                    </textarea>
+                </div>
+            </div>
         </div>
         <br />
         <navbar class="navbar">
@@ -73,16 +81,7 @@
         </div>
         <br /><br />
 
-        <div>
-            <label>input : </label><br />
-            <textarea [ngModel]="inp" (ngModelChange)="setInput($event)">
-    </textarea>
-        </div>
-        <div>
-            <label>output : </label><br />
-            <textarea [ngModel]="op" #outputBox disabled>
-            </textarea>
-        </div>
+        
 
     </div>
 

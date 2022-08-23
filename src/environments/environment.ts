@@ -56,11 +56,11 @@ export const environment = {
     "python",
     "javascript",
     "c_cpp",
-    "java"
+    // "java"
   ],
   themes:[
     "monokai",
-    "textmate"
+    "textmate",
   ]
 
 };
