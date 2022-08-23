@@ -15,7 +15,7 @@
     </div> -->
 
     <div>
-        <navbar>
+        <navbar class="navbar">
             <select [(ngModel)]="lang" (change)="changeLang(lang)">
                 <option *ngFor="let clang of langs" [ngValue]="clang">{{clang}}</option>
             </select>
@@ -31,6 +31,13 @@
             <button (click)="backupCode()" class="nav-above-editor">
                 backup
             </button>
+            
+            <button #runTrigger (click)="runCode()">
+                run
+            </button>
+            <button #submitTrigger (click)="isProblem?submitCode():runCode()">
+                submit
+            </button>
         </navbar>
         <div *ngIf="isProblem && !isSubmitting && isSubmitted" class="status-box" #statusComponent>
             <center>
@@ -40,16 +47,29 @@
             </center>
         </div>
         <div class="editor-container">
+            <div class="ace-editor-split">
             <div class="app-ace-editor" [ngStyle]="{'font-size': fontsize}" #editor (keydown.control.enter)="runCode()"
                 (keydown.control.shift.enter)="isProblem?submitCode():runCode()" (keydown.control.s)="backupCode()">
             </div>
+            <navbar class="navbar">
+                <button #runTrigger [class]="isRan?'third':'half'" (click)="runCode()" class="below-button">
+                    run
+                </button>
+                <button *ngIf="isProblem" [class]="isRan?'third':'half'" #submitTrigger [class]="isRan?'third':'half'" (click)="submitCode()" class="below-button">
+                    submit
+                </button>
+                <button *ngIf="isRan" [class]="isRan?'third':''" class='below-button' disabled>
+                    executed in {{(executionTime/100.00).toFixed(2)}} seconds
+                </button>
+            </navbar>
+            </div>
             <div class="io-container">
-                <div>
+                <div class="input-container">
                     <label>input : </label><br />
                     <textarea [ngModel]="inp" (ngModelChange)="setInput($event)">
                     </textarea>
                 </div>
-                <div>
+                <div class="output-container">
                     <label>output : </label><br />
                     <textarea [ngModel]="op" #outputBox disabled>
                     </textarea>
@@ -57,21 +77,6 @@
             </div>
         </div>
         <br />
-        <navbar class="navbar">
-            <button #runTrigger (click)="runCode()">
-                run
-            </button>
-            <button *ngIf="isProblem" #submitTrigger [class]="isRan?'third':'half'" (click)="submitCode()">
-                submit
-            </button>
-            <button *ngIf="isRan" [class]="isProblem?'third':'half'" disabled>
-                executed in {{(executionTime/100.00).toFixed(2)}} seconds
-            </button>
-            <!-- <span *ngIf="isProblem && !isSubmitting && isSubmitted">
-                <h3>{{status}}</h3>
-            </span> -->
-        </navbar>
-
         <div *ngIf="isProblem && !isSubmitting && isSubmitted" class="status-box" #statusComponent>
             <center>
                 <div [class]="status">
@@ -79,11 +84,5 @@
                 </div>
             </center>
         </div>
-        <br /><br />
-
-        
-
     </div>
-
-
 </div>

@@ -65,9 +65,7 @@
 
         <br />
 
-        <app-editor #editorComponent [isProblem]="true" [problemcode]="problem.problemcode"
-            [sampleinput]="problem.sampleinput" [setProblem]="setProblem">
-        </app-editor>
+        
         <div>
             <tr>
                 <td>
@@ -77,8 +75,6 @@
                     <a routerLink="/profile/{{problem.setter}}" target="_blank">{{problem.setter}}</a>
                 </td>
             </tr>
-        </div>
-        <div>
             <tr>
                 <td>
                     <label>tester:</label>
@@ -87,8 +83,7 @@
                     <a routerLink="/profile/{{problem.tester}}" target="_blank">{{problem.tester}}</a>
                 </td>
             </tr>
-        </div>
-        <div *ngIf="isSubmissionsUpdated">
+        <!-- <div *ngIf="isSubmissionsUpdated"> -->
             <tr>
                 <td>
                     correct submissions:
@@ -97,8 +92,7 @@
                     {{problem.correctSubmissions}}
                 </td>
             </tr>
-        </div>
-        <div *ngIf="isSubmissionsUpdated">
+        <!-- <div *ngIf="isSubmissionsUpdated"> -->
             <tr>
                 <td>
                     total submissions:
@@ -107,8 +101,6 @@
                     {{problem.totalSubmissions}}
                 </td>
             </tr>
-        </div>
-        <div>
             <tr>
                 <td>
                     tags :
@@ -125,5 +117,11 @@
                 </td>
             </tr>
         </div>
+        <br/>
+        <br/>
+        <app-editor #editorComponent [isProblem]="true" [problemcode]="problem.problemcode"
+            [sampleinput]="problem.sampleinput" [setProblem]="setProblem">
+        </app-editor>
+
     </ng-template>
 </div>
