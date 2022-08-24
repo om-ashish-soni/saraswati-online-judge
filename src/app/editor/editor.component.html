@@ -57,8 +57,8 @@
                 <button #runTrigger [class]="isRan?'third':'half'" (click)="runCode()" class="below-button">
                     run
                 </button>
-                <button [class]="isRan?'third':'half'" #submitTrigger [class]="isRan?'third':'half'" (click)="submitCode()" class="below-button">
-                    submit
+                <button [class]="isRan?'third':'half'" #submitTrigger [class]="isRan?'third':'half'" (click)="isProblem?submitCode():runCode()" class="below-button">
+                    submit 
                 </button>
                 <button *ngIf="isRan" [class]="isRan?'third':''" class='below-button' disabled>
                     {{(executionTime/100.00).toFixed(2)}} sec
